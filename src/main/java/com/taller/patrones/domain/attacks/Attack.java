@@ -1,9 +1,9 @@
-package com.taller.patrones.domain;
+package com.taller.patrones.domain.attacks;
 
 /**
  * Representa un ataque que puede ejecutar un personaje.
  */
-public class Attack {
+public abstract class Attack {
 
     private final String name;
     private final int basePower;
@@ -15,9 +15,17 @@ public class Attack {
         this.type = type;
     }
 
-    public String getName() { return name; }
-    public int getBasePower() { return basePower; }
-    public AttackType getType() { return type; }
+    public String getName() {
+        return name;
+    }
+
+    public int getBasePower() {
+        return basePower;
+    }
+
+    public AttackType getType() {
+        return type;
+    }
 
     public enum AttackType {
         NORMAL, SPECIAL, STATUS
