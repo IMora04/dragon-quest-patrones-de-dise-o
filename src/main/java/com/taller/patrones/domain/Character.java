@@ -39,4 +39,8 @@ public class Character {
     public double getHpPercentage() {
         return maxHp > 0 ? (double) currentHp / maxHp * 100 : 0;
     }
+
+    public static CharacterBuilder builder() {
+        return new CharacterBuilder();
+    }
 }
