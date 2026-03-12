@@ -23,7 +23,16 @@ public class BattleService {
     public static final List<String> PLAYER_ATTACKS = List.of("TACKLE", "SLASH", "FIREBALL", "ICE_BEAM", "POISON_STING", "THUNDER", "METEORO");
     public static final List<String> ENEMY_ATTACKS = List.of("TACKLE", "SLASH", "FIREBALL");
 
+    private final ApplyDamageEmitter applyDamageEmitter = new ApplyDamageEmitter();
+    private final BattleLogger logger = new BattleLogger();
+
+    private void initApplyDamageListeners() {
+        applyDamageEmitter.addListener(logger);
+    }
+
     public BattleStartResult startBattle(String playerName, String enemyName) {
+        initApplyDamageListeners();
+
         Character player = Character.builder()
             .name(playerName != null ? playerName : "Héroe")
             .maxHp(150)
@@ -73,7 +82,7 @@ public class BattleService {
         defender.takeDamage(damage);
         String target = defender == battle.getPlayer() ? "player" : "enemy";
         battle.setLastDamage(damage, target);
-        battle.log(attacker.getName() + " usa " + attack.getName() + " y hace " + damage + " de daño a " + defender.getName());
+        applyDamageEmitter.emitDamageApplied(battle, attacker, defender, damage, attack);
         battle.switchTurn();
         if (!defender.isAlive()) {
             battle.finish(attacker.getName());
