@@ -1,14 +1,9 @@
 package com.taller.patrones.domain.attacks;
 
-import com.taller.patrones.domain.damage.BaseDamageStrategy;
-import com.taller.patrones.domain.damage.DamageStrategy;
-import com.taller.patrones.domain.damage.NormalDamageStrategy;
-import com.taller.patrones.domain.damage.SpecialDamageStrategy;
-
 /**
  * Representa un ataque que puede ejecutar un personaje.
  */
-public abstract class Attack {
+public abstract class Attack implements ParentAttack {
 
     private final String name;
     private final int basePower;
@@ -20,32 +15,19 @@ public abstract class Attack {
         this.type = type;
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public int getBasePower() {
         return basePower;
     }
 
+    @Override
     public AttackType getType() {
         return type;
     }
 
-    public enum AttackType {
-
-        NORMAL(new NormalDamageStrategy()),
-        SPECIAL(new SpecialDamageStrategy()),
-        STATUS(new BaseDamageStrategy());
-
-        private final DamageStrategy strategy;
-
-        AttackType(DamageStrategy strategy) {
-            this.strategy = strategy;
-        }
-
-        public DamageStrategy getStrategy() {
-            return strategy;
-        }
-    }
 }

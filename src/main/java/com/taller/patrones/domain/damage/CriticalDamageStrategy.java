@@ -1,12 +1,12 @@
 package com.taller.patrones.domain.damage;
 
-import com.taller.patrones.domain.attacks.Attack;
+import com.taller.patrones.domain.attacks.ParentAttack;
 import com.taller.patrones.domain.Character;
 
 public class CriticalDamageStrategy implements DamageStrategy {
     
     @Override
-    public double calculateDamage(Character attacker, Character defender, Attack attack) {
+    public double calculateDamage(Character attacker, Character defender, ParentAttack attack) {
         double raw = 1.5 * attacker.getAttack() * attack.getBasePower() / 100;
         return Math.max(1, raw - defender.getDefense());
     }

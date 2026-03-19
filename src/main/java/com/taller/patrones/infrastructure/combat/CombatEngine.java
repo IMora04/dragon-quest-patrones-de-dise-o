@@ -3,6 +3,7 @@ package com.taller.patrones.infrastructure.combat;
 import com.taller.patrones.domain.Character;
 import com.taller.patrones.domain.attacks.Attack;
 import com.taller.patrones.domain.attacks.AttackFactory;
+import com.taller.patrones.domain.attacks.ParentAttack;
 import com.taller.patrones.domain.damage.BaseDamageStrategy;
 import com.taller.patrones.domain.damage.CriticalDamageStrategy;
 import com.taller.patrones.domain.damage.DamageStrategy;
@@ -27,7 +28,7 @@ public class CombatEngine {
      * Calcula el daño según el tipo de ataque.
      * Cada fórmula nueva (ej. crítico, veneno con tiempo) requiere modificar este switch.
      */
-    public int calculateDamage(Character attacker, Character defender, Attack attack) {
+    public int calculateDamage(Character attacker, Character defender, ParentAttack attack) {
         DamageStrategy strategy = attack.getType().getStrategy();
         if (Math.random() < 0.2) {
             strategy = new CriticalDamageStrategy();
