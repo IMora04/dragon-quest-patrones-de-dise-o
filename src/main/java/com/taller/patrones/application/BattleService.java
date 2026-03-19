@@ -26,6 +26,8 @@ public class BattleService {
     private final ApplyDamageEmitter applyDamageEmitter = new ApplyDamageEmitter();
     private final BattleLogger logger = new BattleLogger();
 
+    private final CommandHistory commandHistory = new CommandHistory();
+
     private void initApplyDamageListeners() {
         applyDamageEmitter.addListener(logger);
     }
@@ -79,14 +81,18 @@ public class BattleService {
     }
 
     private void applyDamage(Battle battle, Character attacker, Character defender, int damage, Attack attack) {
-        defender.takeDamage(damage);
-        String target = defender == battle.getPlayer() ? "player" : "enemy";
-        battle.setLastDamage(damage, target);
+        ApplyDamageCommand command = new ApplyDamageCommand(battle, defender, damage);
+        command.execute();
+        commandHistory.push(command);
         applyDamageEmitter.emitDamageApplied(battle, attacker, defender, damage, attack);
-        battle.switchTurn();
         if (!defender.isAlive()) {
             battle.finish(attacker.getName());
         }
+    }
+
+    private void undoLastAttack() {
+        Command command = commandHistory.pop();
+        command.undo();
     }
 
     public BattleStartResult startBattleFromExternal(String fighter1Name, int fighter1Hp, int fighter1Atk,

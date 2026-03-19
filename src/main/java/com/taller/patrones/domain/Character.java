@@ -32,6 +32,10 @@ public class Character {
         this.currentHp = Math.max(0, currentHp - damage);
     }
 
+    public void takeHealth(int hp) {
+        this.currentHp = Math.min(maxHp, currentHp + hp);
+    }
+
     public boolean isAlive() {
         return currentHp > 0;
     }
